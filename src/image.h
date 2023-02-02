@@ -4,6 +4,7 @@
 #define AGL_IMAGE_H_
 
 #include <iostream>
+#include <fstream>  
 #include <string>
 
 namespace agl {
@@ -190,6 +191,10 @@ class Image {
 
  private:
    // todo
+   int m_width; 
+   int m_height; 
+   int m_channels; 
+   char * m_data; 
 };
 }  // namespace agl
 #endif  // AGL_IMAGE_H_
