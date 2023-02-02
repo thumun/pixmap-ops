@@ -34,6 +34,8 @@ Image::~Image() {
    if (m_data != nullptr) {
       stbi_image_free(m_data); 
    }
+   
+   // free img 
 }
 
 int Image::width() const { 
@@ -53,44 +55,32 @@ void Image::set(int width, int height, unsigned char* data) {
 
 bool Image::load(const std::string& filename, bool flip) {
    // flip w/ this stbi_set_flip_vertically_on_load
-    m_data = (char *) stbi_load(filename.c_str(), &m_width, &m_height, &m_channels, 0);
-    std::cout << m_data << std::endl;
+   stbi_set_flip_vertically_on_load(flip);
+   m_data = (char *) stbi_load(filename.c_str(), &m_width, &m_height, &m_channels, 3);
+   // std::cout << m_data << std::endl;
 
    return m_data!=nullptr; 
    
 }
 
-
 bool Image::save(const std::string& filename, bool flip) const {
-   if (filename.c_str() == nullptr){
-      return false;
-   } else {
-      // save to file 
-      std::ofstream outfile (filename.c_str());
-
-      // how does flip work 
-   }
-  
+   stbi_flip_vertically_on_write(flip); 
+   return stbi_write_png(filename.c_str(), m_width, m_height, m_channels, m_data, m_width*3);
 }
 
 Pixel Image::get(int row, int col) const {
-   // (2, 3) // 2d array 
-   // i*4*width + j*4*height 
+   char red = m_data[m_channels*row*m_width + m_channels*col]; 
+   char green = m_data[m_channels*row*m_width + m_channels*col +1]; 
+   char blue = m_data[m_channels*row*m_width + m_channels*col +2]; 
 
-  return Pixel{ 0, 0, 0 };
+  return Pixel{ (unsigned char)red, (unsigned char)green, (unsigned char)blue};
 }
 
 void Image::set(int row, int col, const Pixel& color) {
-   for (int i = 0; i < row; i++){
-      for (int j = 0; j < col; j++){
 
-         // access var in data (?) and set the color 
-         // set red 
-         // set blue 
-         // set green 
-
-      }
-   }
+   m_data[m_channels*row*m_width + m_channels*col] = (char) color.r; 
+   m_data[m_channels*row*m_width + m_channels*col +1] = (char) color.g; 
+   m_data[m_channels*row*m_width + m_channels*col +2] = (char) color.b; 
  
 }
 

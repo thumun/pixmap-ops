@@ -5,6 +5,7 @@ using namespace agl;
 
 int main(int argc, char** argv)
 {
+   
    // todo: make at least one artwork!
    return 0;
 }
