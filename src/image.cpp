@@ -60,7 +60,6 @@ Image::~Image() {
       delete m_data; 
    }
    
-   // free img 
 }
 
 int Image::width() const { 
@@ -81,7 +80,8 @@ void Image::set(int width, int height, unsigned char* data) {
 
 bool Image::load(const std::string& filename, bool flip) {
    stbi_set_flip_vertically_on_load(flip);
-   char * tempData = (char *) stbi_load(filename.c_str(), &m_width, &m_height, &m_channels, 3);
+   char * tempData = (char *) stbi_load(filename.c_str(), 
+      &m_width, &m_height, &m_channels, 3);
 
    if (m_data != nullptr){
       delete m_data;
@@ -102,7 +102,8 @@ bool Image::load(const std::string& filename, bool flip) {
 
 bool Image::save(const std::string& filename, bool flip) const {
    stbi_flip_vertically_on_write(flip); 
-   return stbi_write_png(filename.c_str(), m_width, m_height, m_channels, m_data, m_width*m_channels);
+   return stbi_write_png(filename.c_str(), m_width, m_height, 
+      m_channels, m_data, m_width*m_channels);
 }
 
 Pixel Image::get(int row, int col) const {
@@ -110,7 +111,7 @@ Pixel Image::get(int row, int col) const {
    char green = m_data[m_channels*row*m_width + m_channels*col +1]; 
    char blue = m_data[m_channels*row*m_width + m_channels*col +2]; 
 
-  return Pixel{ (unsigned char)red, (unsigned char)green, (unsigned char)blue};
+  return Pixel{ (unsigned char)red,(unsigned char)green,(unsigned char)blue};
 }
 
 void Image::set(int row, int col, const Pixel& color) {
