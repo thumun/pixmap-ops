@@ -45,7 +45,20 @@ pixmap-ops/build $ ../bin/pixmap_art
 
 ## Image operators
 
-TODO: Document the features of your PPM image class here. Include example images.
+Resize 
+![resize](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-200-300.png)
+Alphablend 
+![alphablend](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-blend-0.5.png)
+Flip 
+![flip](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-flip.png)
+Gamma Correction [0.6] 
+![gamma0.6](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-gamma-0.6.png)
+Gamma Correction [2.2] 
+![gamma2.2](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-gamma-2.2.png)
+Greyscale
+![greyscale](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-grayscale.png)
+Subimage
+![subimage](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-subimage.png)
 
 ## Results
 
