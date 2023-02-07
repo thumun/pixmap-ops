@@ -263,6 +263,7 @@ Image Image::add(const Image& other) const {
    return result;
 }
 
+// not working : ( 
 Image Image::subtract(const Image& other) const {
    Image result(m_width, m_height);
 
@@ -343,13 +344,37 @@ Image Image::screen(const Image& other) const {
 }
 
 Image Image::difference(const Image& other) const {
-   Image result(0, 0);
+   Image result(m_width, m_height);
+
+   for (int i = 0; i < m_height; i++){
+      for (int j = 0; j < m_width; j++){
+
+         Pixel currPx = get(i, j);
+         Pixel otherPx = other.get(i, j);
+
+         std::cout << "curr:" << currPx.r << ", " << currPx.g  << ", " << currPx.b << ", " << std::endl;
+         std::cout << "other:" << otherPx.r << ", " << otherPx.g  << ", " << otherPx.b << ", " << std::endl;
+
+         Pixel resultPx; 
+
+         resultPx.r = std::abs(currPx.r - otherPx.r);
+         resultPx.g = std::abs(currPx.g - otherPx.g);
+         resultPx.b = std::abs(currPx.b - otherPx.b);
+
+         std::cout << "updated:" << resultPx.r << ", " << resultPx.g  << ", " << resultPx.b << ", " << std::endl;
+
+         result.set(i, j, resultPx);
+
+      }
+   }
   
    return result;
 }
 
 Image Image::lightest(const Image& other) const {
-   Image result(0, 0);
+   Image result(m_width, m_height);
+
+   
   
    return result;
 }

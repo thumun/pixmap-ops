@@ -180,7 +180,8 @@ class Image {
   // Assumes that the two images are the same size
   Image alphaBlend(const Image& other, float amount) const;
 
-  // Convert the image to grayscale
+  // invert the image 
+  // result = 1 - image 
   Image invert() const;
 
   // Convert the image to grayscale

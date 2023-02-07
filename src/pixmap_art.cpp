@@ -27,6 +27,9 @@ int main(int argc, char** argv)
    Image sub = image.subtract(image);
    sub.save("earth-sub.png");
 
+   Image difference = image.difference(image);
+   difference.save("earth-difference.png");
+
    // why : ( 
    image.load("../images/feep.png");
    Image screen = image.screen(image);
