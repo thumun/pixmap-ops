@@ -21,6 +21,13 @@ int main(int argc, char** argv)
    Image invert = image.invert();
    invert.save("earth-invert.png");
 
+   Image add = image.add(image);
+   add.save("earth-add.png");
+
+   Image sub = image.subtract(image);
+   sub.save("earth-sub.png");
+
+   // why : ( 
    image.load("../images/feep.png");
    Image screen = image.screen(image);
    screen.save("feep-screen.png");

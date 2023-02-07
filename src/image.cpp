@@ -243,18 +243,47 @@ Image Image::swirl() const {
 }
 
 Image Image::add(const Image& other) const {
-   Image result(0, 0);
+   Image result(m_width, m_height);
+
+   for (int i = 0; i < other.height(); i++){
+      for (int j = 0; j < other.width(); j++){
+         Pixel currPx = get(i, j);
+         Pixel otherPx = other.get(i, j);
+
+         Pixel resultPx; 
+         // resultPx.r = std::clamp(currPx.r + otherPx.r, 0, 255); 
+         resultPx.r = currPx.r + otherPx.r < 0 ? 0 : (currPx.r + otherPx.r > 255 ? 255 : currPx.r + otherPx.r);
+         resultPx.g = currPx.g + otherPx.g < 0 ? 0 : (currPx.g + otherPx.g > 255 ? 255 : currPx.g + otherPx.g);
+         resultPx.b = currPx.b + otherPx.b < 0 ? 0 : (currPx.b + otherPx.b > 255 ? 255 : currPx.b + otherPx.b);
+
+         result.set(i, j, resultPx);
+      }
+   }
   
    return result;
 }
 
 Image Image::subtract(const Image& other) const {
-   Image result(0, 0);
+   Image result(m_width, m_height);
+
+   for (int i = 0; i < other.height(); i++){
+      for (int j = 0; j < other.width(); j++){
+         Pixel currPx = get(i, j);
+         Pixel otherPx = other.get(i, j);
+
+         Pixel resultPx; 
+         // resultPx.r = std::clamp(currPx.r + otherPx.r, 0, 255); 
+         resultPx.r = currPx.r - otherPx.r < 0 ? 0 : (currPx.r - otherPx.r > 255 ? 255 : currPx.r - otherPx.r);
+         resultPx.g = currPx.g - otherPx.g < 0 ? 0 : (currPx.g - otherPx.g > 255 ? 255 : currPx.g - otherPx.g);
+         resultPx.b = currPx.b - otherPx.b < 0 ? 0 : (currPx.b - otherPx.b > 255 ? 255 : currPx.b - otherPx.b);
+
+         result.set(i, j, resultPx);
+      }
+   }
    
    return result;
 }
 
-// change since can have 2 img 
 Image Image::multiply(const Image& other) const {
    Image result(m_width, m_height);
 
@@ -277,7 +306,6 @@ Image Image::multiply(const Image& other) const {
    return result;
 }
 
-// change since can have 2 img 
 Image Image::screen(const Image& other) const {
    Image result(m_width, m_height);
 
