@@ -7,6 +7,25 @@ int main(int argc, char** argv)
 {
    
    // todo: make at least one artwork!
+
+
+   Image image;
+   image.load("../images/earth.png");
+
+   Image swirl = image.swirl(); 
+   swirl.save("earth-swirl.png");
+
+   Image multiply = image.multiply(image); 
+   multiply.save("earth-multiply.png");
+
+   Image invert = image.invert();
+   invert.save("earth-invert.png");
+
+   image.load("../images/feep.png");
+   Image screen = image.screen(image);
+   screen.save("feep-screen.png");
+
+
    return 0;
 }
 

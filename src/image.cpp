@@ -127,7 +127,6 @@ Pixel Image::get(int i) const
    return Pixel{ 0, 0, 0 };
 }
 
-// I imagine this eliminates the alpha (?) 
 void Image::set(int i, const Pixel& c)
 {
 
@@ -224,8 +223,22 @@ void Image::replace(const Image& image, int startx, int starty) {
   
 }
 
+// I think it works ?? 
 Image Image::swirl() const {
-   Image result(0, 0);
+   Image result(m_width, m_height);
+
+   for (int i = 0; i < m_height; i++) {
+      for (int j = 0; j < m_width; j++){
+         Pixel curr = get(i, j); 
+
+         curr.g = curr.b; 
+         curr.b = curr.r; 
+         curr.r = get(i, j).g;
+
+         result.set(i, j, curr); 
+      }
+   }
+
    return result;
 }
 
@@ -241,10 +254,64 @@ Image Image::subtract(const Image& other) const {
    return result;
 }
 
+// change since can have 2 img 
 Image Image::multiply(const Image& other) const {
-   Image result(0, 0);
+   Image result(m_width, m_height);
+
+   for (int i = 0; i < m_height; i++){
+      for (int j = 0; j < m_width; j++){
+
+         Pixel currPx = get(i, j);
+         Pixel otherPx = other.get(i, j);
+
+         Pixel multiplyPx; 
+         multiplyPx.r = (currPx.r/(float)255) * otherPx.r;
+         multiplyPx.g = (currPx.g/(float)255) * otherPx.g; 
+         multiplyPx.b = (currPx.b/(float)255) * otherPx.b; 
+
+         result.set(i, j, multiplyPx);
+
+      }
+   }
    
    return result;
+}
+
+// change since can have 2 img 
+Image Image::screen(const Image& other) const {
+   Image result(m_width, m_height);
+
+   // f(a,b)=1-(1-a)(1-b)
+
+   for (int i = 0; i < m_height; i++){
+      for (int j = 0; j < m_width; j++){
+         Pixel currPx = get(i, j);
+         Pixel otherPx = other.get(i, j);
+
+         currPx.r = 1.0 - currPx.r/255.0;
+         currPx.g = 1.0 - currPx.g/255.0; 
+         currPx.b = 1.0 - currPx.b/255.0; 
+
+         otherPx.r = 1.0 - otherPx.r/255.0; 
+         otherPx.g = 1.0 - otherPx.g/255.0; 
+         otherPx.b = 1.0 - otherPx.b/255.0; 
+
+         Pixel screenPx; 
+         screenPx.r = (1-(currPx.r*otherPx.r))*255; 
+         screenPx.g = (1-(currPx.g*otherPx.g))*255; 
+         screenPx.b = (1-(currPx.b*otherPx.b))*255; 
+
+         // check pixels !! 
+         // overflow issues or rounding issues ? 
+         // check on feep (pixels)
+         // maybe too much 
+
+         result.set(i, j, screenPx); 
+
+      }
+   }
+
+   return result; 
 }
 
 Image Image::difference(const Image& other) const {
@@ -264,7 +331,6 @@ Image Image::darkest(const Image& other) const {
   
    return result;
 }
-
 
 Image Image::gammaCorrect(float gamma) const {
 
@@ -312,9 +378,21 @@ Image Image::alphaBlend(const Image& other, float alpha) const {
 }
 
 Image Image::invert() const {
-   Image image(0, 0);
+   Image result(m_width, m_height);
+
+   for (int i = 0; i < m_height; i++) {
+      for (int j = 0; j < m_width; j++) {
+         Pixel curr = get(i, j); 
+
+         curr.r = (1 - curr.r/255.0)*255.0; 
+         curr.g = (1 - curr.g/255.0)*255.0; 
+         curr.b = (1 - curr.b/255.0)*255.0; 
+
+         result.set(i, j, curr);
+      }
+   }
    
-   return image;
+   return result;
 }
 
 Image Image::grayscale() const {

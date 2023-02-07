@@ -147,6 +147,9 @@ class Image {
   // Assumes that the two images are the same size
   Image multiply(const Image& other) const;
 
+  // add desc here 
+  Image screen(const Image& other) const;
+
   // Apply the following calculation to the pixels in 
   // our image and the given image:
   //    result.pixel = abs(this.pixel - other.pixel)
