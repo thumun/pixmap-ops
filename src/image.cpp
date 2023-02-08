@@ -11,6 +11,10 @@
 
 namespace agl {
 
+// extension func since std::clamp not working 
+float clamp(float val, float min, float max){
+   return val < min ? min : (val > max ? max : val);
+}
 
 Image::Image() {
    m_channels = 3; 
@@ -273,10 +277,12 @@ Image Image::subtract(const Image& other) const {
          Pixel otherPx = other.get(i, j);
 
          Pixel resultPx; 
-         // resultPx.r = std::clamp(currPx.r + otherPx.r, 0, 255); 
-         resultPx.r = currPx.r - otherPx.r < 0 ? 0 : (currPx.r - otherPx.r > 255 ? 255 : currPx.r - otherPx.r);
-         resultPx.g = currPx.g - otherPx.g < 0 ? 0 : (currPx.g - otherPx.g > 255 ? 255 : currPx.g - otherPx.g);
-         resultPx.b = currPx.b - otherPx.b < 0 ? 0 : (currPx.b - otherPx.b > 255 ? 255 : currPx.b - otherPx.b);
+         resultPx.r = clamp(currPx.r - otherPx.r, 0, 255);
+         resultPx.g = clamp(currPx.g - otherPx.g, 0, 255);
+         resultPx.b = clamp(currPx.b - otherPx.b, 0, 255);
+         // resultPx.r = currPx.r - otherPx.r < 0 ? 0 : (currPx.r - otherPx.r > 255 ? 255 : currPx.r - otherPx.r);
+         // resultPx.g = currPx.g - otherPx.g < 0 ? 0 : (currPx.g - otherPx.g > 255 ? 255 : currPx.g - otherPx.g);
+         // resultPx.b = currPx.b - otherPx.b < 0 ? 0 : (currPx.b - otherPx.b > 255 ? 255 : currPx.b - otherPx.b);
 
          result.set(i, j, resultPx);
       }
@@ -352,16 +358,11 @@ Image Image::difference(const Image& other) const {
          Pixel currPx = get(i, j);
          Pixel otherPx = other.get(i, j);
 
-         std::cout << "curr:" << currPx.r << ", " << currPx.g  << ", " << currPx.b << ", " << std::endl;
-         std::cout << "other:" << otherPx.r << ", " << otherPx.g  << ", " << otherPx.b << ", " << std::endl;
-
          Pixel resultPx; 
 
          resultPx.r = std::abs(currPx.r - otherPx.r);
          resultPx.g = std::abs(currPx.g - otherPx.g);
          resultPx.b = std::abs(currPx.b - otherPx.b);
-
-         std::cout << "updated:" << resultPx.r << ", " << resultPx.g  << ", " << resultPx.b << ", " << std::endl;
 
          result.set(i, j, resultPx);
 

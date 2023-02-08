@@ -24,16 +24,15 @@ int main(int argc, char** argv)
    Image add = image.add(image);
    add.save("earth-add.png");
 
-   Image sub = image.subtract(image);
+   Image sub = image.subtract(swirl);
    sub.save("earth-sub.png");
 
-   Image difference = image.difference(image);
+   Image difference = image.difference(swirl);
    difference.save("earth-difference.png");
 
    // why : ( 
-   image.load("../images/feep.png");
-   Image screen = image.screen(image);
-   screen.save("feep-screen.png");
+   Image screen = sub.screen(difference);
+   screen.save("earth-screen.png");
 
 
    return 0;
