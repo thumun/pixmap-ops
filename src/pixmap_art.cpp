@@ -30,8 +30,14 @@ int main(int argc, char** argv)
    Image difference = image.difference(swirl);
    difference.save("earth-difference.png");
 
+   Image lightest = image.lightest(invert);
+   lightest.save("earth-lightest.png");
+
+   Image darkest = image.darkest(invert);
+   darkest.save("earth-darkest.png");
+
    // why : ( 
-   Image screen = sub.screen(difference);
+   Image screen = difference.screen(sub);
    screen.save("earth-screen.png");
 
 

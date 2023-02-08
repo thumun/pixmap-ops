@@ -193,11 +193,13 @@ class Image {
   // return a bitmap version of this image
   Image bitmap(int size) const;
 
+  // return an image with gaussian blur applied to it 
+  Image gaussianBlur(int stdev) const; 
+
   // Fill this image with a color
   void fill(const Pixel& c);
 
  private:
-   // todo
    int m_width; 
    int m_height; 
    int m_channels; 

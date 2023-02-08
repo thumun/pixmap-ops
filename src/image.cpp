@@ -267,7 +267,6 @@ Image Image::add(const Image& other) const {
    return result;
 }
 
-// not working : ( 
 Image Image::subtract(const Image& other) const {
    Image result(m_width, m_height);
 
@@ -280,9 +279,6 @@ Image Image::subtract(const Image& other) const {
          resultPx.r = clamp(currPx.r - otherPx.r, 0, 255);
          resultPx.g = clamp(currPx.g - otherPx.g, 0, 255);
          resultPx.b = clamp(currPx.b - otherPx.b, 0, 255);
-         // resultPx.r = currPx.r - otherPx.r < 0 ? 0 : (currPx.r - otherPx.r > 255 ? 255 : currPx.r - otherPx.r);
-         // resultPx.g = currPx.g - otherPx.g < 0 ? 0 : (currPx.g - otherPx.g > 255 ? 255 : currPx.g - otherPx.g);
-         // resultPx.b = currPx.b - otherPx.b < 0 ? 0 : (currPx.b - otherPx.b > 255 ? 255 : currPx.b - otherPx.b);
 
          result.set(i, j, resultPx);
       }
@@ -316,30 +312,15 @@ Image Image::multiply(const Image& other) const {
 Image Image::screen(const Image& other) const {
    Image result(m_width, m_height);
 
-   // f(a,b)=1-(1-a)(1-b)
-
    for (int i = 0; i < m_height; i++){
       for (int j = 0; j < m_width; j++){
          Pixel currPx = get(i, j);
          Pixel otherPx = other.get(i, j);
 
-         currPx.r = 1.0 - currPx.r/255.0;
-         currPx.g = 1.0 - currPx.g/255.0; 
-         currPx.b = 1.0 - currPx.b/255.0; 
-
-         otherPx.r = 1.0 - otherPx.r/255.0; 
-         otherPx.g = 1.0 - otherPx.g/255.0; 
-         otherPx.b = 1.0 - otherPx.b/255.0; 
-
          Pixel screenPx; 
-         screenPx.r = (1-(currPx.r*otherPx.r))*255; 
-         screenPx.g = (1-(currPx.g*otherPx.g))*255; 
-         screenPx.b = (1-(currPx.b*otherPx.b))*255; 
-
-         // check pixels !! 
-         // overflow issues or rounding issues ? 
-         // check on feep (pixels)
-         // maybe too much 
+         screenPx.r = (1.0-((1.0 - currPx.r/255.0)*(1.0 - otherPx.r/255.0)))*255; 
+         screenPx.g = (1.0-((1.0 - currPx.g/255.0)*(1.0 - otherPx.g/255.0)))*255; 
+         screenPx.b = (1.0-((1.0 - currPx.b/255.0)*(1.0 - otherPx.b/255.0)))*255; 
 
          result.set(i, j, screenPx); 
 
@@ -375,13 +356,41 @@ Image Image::difference(const Image& other) const {
 Image Image::lightest(const Image& other) const {
    Image result(m_width, m_height);
 
-   
+   for (int i = 0; i < m_height; i++) {
+      for (int j = 0; j < m_width; j++) {
+
+         Pixel resultPx; 
+         Pixel currPx = get(i, j); 
+         Pixel otherPx = other.get(i, j); 
+
+         resultPx.r = std::max(currPx.r, otherPx.r);
+         resultPx.g = std::max(currPx.g, otherPx.g);
+         resultPx.b = std::max(currPx.b, otherPx.b);
+
+         result.set(i, j, resultPx);
+      }
+   }
   
    return result;
 }
 
 Image Image::darkest(const Image& other) const {
-   Image result(0, 0);
+   Image result(m_width, m_height);
+
+   for (int i = 0; i < m_height; i++) {
+      for (int j = 0; j < m_width; j++) {
+
+         Pixel resultPx; 
+         Pixel currPx = get(i, j); 
+         Pixel otherPx = other.get(i, j); 
+
+         resultPx.r = std::min(currPx.r, otherPx.r);
+         resultPx.g = std::min(currPx.g, otherPx.g);
+         resultPx.b = std::min(currPx.b, otherPx.b);
+
+         result.set(i, j, resultPx);
+      }
+   }
   
    return result;
 }
@@ -484,6 +493,22 @@ Image Image::bitmap(int size) const {
    Image image(0, 0);
    
    return image;
+}
+
+Image Image::gaussianBlur(int stdev) const {
+   Image result(m_width, m_height);
+
+   float gaussEqu = pow(1/sqrt(2*M_PI*pow(stdev,2)), 2); // need to add epsilon 
+
+   // making the blur matrix
+   std::vector<float> blurMatrix; 
+
+   // make matrix (3x3?) w/ gauss equ as paramaterers 
+
+   // cycle through pixels 
+   // pixel = neighbors * gaussequ && all added together 
+
+   return result; 
 }
 
 void Image::fill(const Pixel& c) {
