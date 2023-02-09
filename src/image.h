@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>  
 #include <string>
+#include <vector>
 
 namespace agl {
 
@@ -201,6 +202,8 @@ class Image {
 
   // returns image w/ film grain applied to it
   Image filmGrain()const; 
+
+  Image overlay() const; 
 
   // Fill this image with a color
   void fill(const Pixel& c);

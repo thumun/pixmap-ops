@@ -40,6 +40,9 @@ int main(int argc, char** argv)
    Image screen = difference.screen(sub);
    screen.save("earth-screen.png");
 
+   Image gauss = image.gaussianBlur(3);
+   gauss.save("earth-gauss.png");
+
 
    return 0;
 }

@@ -575,16 +575,20 @@ Image Image::filmGrain() const {
          int randNum = rand() % 100; // rand from 0 - 100  
 
          // based on num - determine dark/light 
-         // if (randNum < 20){
-         //    currPx.r = currPx.r 
+         if (randNum < 20){
+            currPx.r = currPx.r;
 
-         // } else if (randNum < 40){
+         } else if (randNum < 40){
+            std::cout << "hi" << std::endl; 
 
-         // } else if (randNum < 60) {
+         } else if (randNum < 60) {
+            std::cout << "hi" << std::endl; 
             
-         // } else if (randNum < 80) {
+         } else if (randNum < 80) {
+            std::cout << "hi" << std::endl; 
 
-         // } else { 
+         } else { 
+            std::cout << "hi" << std::endl; 
 
          }
 
@@ -594,6 +598,13 @@ Image Image::filmGrain() const {
    }
 
    return result;
+}
+
+
+Image Image::overlay() const {
+   Image result(m_width, m_height);
+
+   return result; 
 }
 
 void Image::fill(const Pixel& c) {
