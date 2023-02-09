@@ -566,9 +566,32 @@ Image Image::gaussianBlur(int stdev) const {
 Image Image::filmGrain() const {
    Image result(m_width, m_height);
 
-   // random num 
-   // based on num - determine dark/light 
-   // apply to pixel and change val 
+   for (int i = 0; i < m_height; i++){
+      for (int j = 0; j < m_width; j++){
+
+         Pixel currPx = get(i, j);
+
+         // random num 
+         int randNum = rand() % 100; // rand from 0 - 100  
+
+         // based on num - determine dark/light 
+         // if (randNum < 20){
+         //    currPx.r = currPx.r 
+
+         // } else if (randNum < 40){
+
+         // } else if (randNum < 60) {
+            
+         // } else if (randNum < 80) {
+
+         // } else { 
+
+         }
+
+         // apply to pixel and change val 
+
+      }
+   }
 
    return result;
 }
