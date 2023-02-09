@@ -201,8 +201,12 @@ class Image {
   std::vector<Pixel> getNeighbors(int i, int j, float gaussEqu) const; 
 
   // returns image w/ film grain applied to it
+  // lightens/darkens px based on random number to get effect 
   Image filmGrain()const; 
 
+  // applies overlay to image and returns said image
+  // applies screen or multiply depending on the pixel values 
+  // Assumes that the two images are the same size
   Image overlay() const; 
 
   // Fill this image with a color

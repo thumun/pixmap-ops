@@ -36,13 +36,14 @@ int main(int argc, char** argv)
    Image darkest = image.darkest(invert);
    darkest.save("earth-darkest.png");
 
-   // why : ( 
    Image screen = difference.screen(sub);
    screen.save("earth-screen.png");
 
-   Image gauss = image.gaussianBlur(3);
-   gauss.save("earth-gauss.png");
+   // Image gauss = image.gaussianBlur(3);
+   // gauss.save("snakeboi-gauss.png");
 
+   Image filmGrain = image.filmGrain();
+   filmGrain.save("earth-filmGrain.png");
 
    return 0;
 }
