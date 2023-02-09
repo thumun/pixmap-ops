@@ -8,6 +8,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 #include <cmath>
+#include <vector>
 
 namespace agl {
 
@@ -134,6 +135,32 @@ Pixel Image::get(int i) const
 void Image::set(int i, const Pixel& c)
 {
 
+}
+
+std::vector<Pixel> Image::getNeighbors(int i, int j, float gaussEqu) const{
+   std::vector<Pixel> neighbors; 
+
+   for (int x = -1; x < i + 1; i++){
+
+      if (x < 0) { continue;};
+      if (x > i-1) { continue;};
+
+      for (int y = 0; y < j; y++){
+         if (y < 0) { continue;};
+         if (y > j-1) { continue;};
+
+         if (x == i && y == j){continue;}
+         else {
+            Pixel currPx = get(i, j); 
+            currPx.r = currPx.r*gaussEqu; 
+            currPx.g = currPx.g*gaussEqu; 
+            currPx.b = currPx.b*gaussEqu; 
+
+            neighbors.push_back(currPx);
+         }
+      }
+   }
+   return neighbors;
 }
 
 Image Image::resize(int w, int h) const {
@@ -498,17 +525,52 @@ Image Image::bitmap(int size) const {
 Image Image::gaussianBlur(int stdev) const {
    Image result(m_width, m_height);
 
-   float gaussEqu = pow(1/sqrt(2*M_PI*pow(stdev,2)), 2); // need to add epsilon 
+   float gaussEqu = (1/sqrt(2*M_PI*pow(stdev,2))) * std::exp(-(pow(m_width, 2) + pow(m_height, 2))/2*pow(stdev,2));  
 
    // making the blur matrix
-   std::vector<float> blurMatrix; 
+   // std::vector<float> blurMatrix; 
 
    // make matrix (3x3?) w/ gauss equ as paramaterers 
+   // for (int i = 0; i < 8; i ++){
+   //    blurMatrix.push_back(gaussEqu);
+   // }
+
+   std::vector<Pixel> neighbors; 
 
    // cycle through pixels 
-   // pixel = neighbors * gaussequ && all added together 
+
+   for (int i = -1; i < m_height + 1; i++){
+      for (int j = 0; j < m_width; j++){
+
+         neighbors = getNeighbors(i, j, gaussEqu);
+
+         // pixel = neighbors * gaussequ && all added together 
+
+         Pixel resultant = neighbors[0]; 
+         for(int v = 1; v < neighbors.size(); v++){
+            resultant.r += neighbors[v].r; 
+            resultant.g += neighbors[v].g; 
+            resultant.b += neighbors[v].b; 
+
+         }
+
+         result.set(i, j, resultant);
+         
+      }
+
+   }
 
    return result; 
+}
+
+Image Image::filmGrain() const {
+   Image result(m_width, m_height);
+
+   // random num 
+   // based on num - determine dark/light 
+   // apply to pixel and change val 
+
+   return result;
 }
 
 void Image::fill(const Pixel& c) {

@@ -106,7 +106,6 @@ class Image {
  */
   void set(int i, const Pixel& c);
 
-
   // resize the image
   Image resize(int width, int height) const;
 
@@ -195,6 +194,13 @@ class Image {
 
   // return an image with gaussian blur applied to it 
   Image gaussianBlur(int stdev) const; 
+
+  // extension func for gaussian blur 
+  // returns the neighbors of a pixel 
+  std::vector<Pixel> getNeighbors(int i, int j, float gaussEqu) const; 
+
+  // returns image w/ film grain applied to it
+  Image filmGrain()const; 
 
   // Fill this image with a color
   void fill(const Pixel& c);
