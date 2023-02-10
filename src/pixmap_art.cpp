@@ -7,56 +7,76 @@ int main(int argc, char** argv)
 {
 
    Image image;
-   image.load("../images/snake.png");
+   image.load("../images/bricks.png");
 
-   Image swirl = image.swirl(); 
-   swirl.save("snake-swirl.png");
+   // Image swirl = image.swirl(); 
+   // swirl.save("snake-swirl.png");
 
-   Image multiply = image.multiply(image); 
-   multiply.save("snake-multiply.png");
+   // Image multiply = image.multiply(image); 
+   // multiply.save("snake-multiply.png");
 
-   Image invert = image.invert();
-   invert.save("snake-invert.png");
+   // Image invert = image.invert();
+   // invert.save("snake-invert.png");
 
-   Image add = image.add(image);
-   add.save("snake-add.png");
+   // Image add = image.add(image);
+   // add.save("snake-add.png");
 
-   Image sub = image.subtract(swirl);
-   sub.save("snake-sub.png");
+   // Image sub = image.subtract(swirl);
+   // sub.save("snake-sub.png");
 
-   Image difference = image.difference(swirl);
-   difference.save("snake-difference.png");
+   // Image difference = image.difference(swirl);
+   // difference.save("snake-difference.png");
 
-   Image lightest = image.lightest(invert);
-   lightest.save("snake-lightest.png");
+   // Image lightest = image.lightest(invert);
+   // lightest.save("snake-lightest.png");
 
-   Image darkest = image.darkest(invert);
-   darkest.save("snake-darkest.png");
+   // Image darkest = image.darkest(invert);
+   // darkest.save("snake-darkest.png");
 
-   Image screen = difference.screen(sub);
-   screen.save("snake-screen.png");
+   // Image screen = difference.screen(sub);
+   // screen.save("snake-screen.png");
 
-   Image filmGrain = image.filmGrain();
-   filmGrain.save("snake-filmGrain.png");
+   // Image filmGrain = image.filmGrain();
+   // filmGrain.save("snake-filmGrain.png");
 
-   Image overlay = image.overlay(image); 
-   overlay.save("snake-overlay.png");
+   // Image overlay = image.overlay(image); 
+   // overlay.save("snake-overlay.png");
 
-   Image sepia = image.sepia(); 
-   sepia.save("snake-sepia.png");
+   // Image sepia = image.sepia(); 
+   // sepia.save("snake-sepia.png");
 
-   Image sepiagrain = sepia.filmGrain();
-   sepiagrain.save("snake-oldtimey.png");
+   // Image sepiagrain = sepia.filmGrain();
+   // sepiagrain.save("snake-oldtimey.png");
 
-   // my image is super big so these ops look better on earth 
+   // // my image is super big so these ops look better on earth 
 
    Image earth;
    earth.load("../images/earth.png");
-   Image pixelateE = earth.pixelate(); 
-   pixelateE.save("earth-pixelate.png");
+   // Image pixelateE = earth.pixelate(); 
+   // pixelateE.save("earth-pixelate.png");
 
-   Image gauss = image.gaussianBlur(3);
-   gauss.save("snake-gauss.png");
+   // Image gauss = image.gaussianBlur(3);
+   // gauss.save("snake-gauss.png");
+
+   // images: 
+   // Image invert = image.invert();
+
+   // Image pixelate = image.pixelate();
+
+   // Image blend = invert.alphaBlend(pixelate, 0.5f);
+
+   // blend.save("blurryearth.png");
+
+   // Image grain = invert.filmGrain(); 
+   // Image screen = grain.screen(image); 
+
+   // screen.save("lightgrain.png");
+
+   // invert.save("snake-invert.png");
+
+   Image blend = earth.alphaBlend(image, 0.5f);
+   Image difference = blend.difference(earth); 
+   difference.save("curious.png");
 
    return 0;
 }
