@@ -155,51 +155,6 @@ namespace agl
    {
    }
 
-   std::vector<Pixel> Image::getNeighbors(int i, int j, float gaussEqu) const
-   {
-      std::vector<Pixel> neighbors;
-
-      for (int x = -1; x < i + 1; i++)
-      {
-
-         if (x < 0)
-         {
-            continue;
-         };
-         if (x > i - 1)
-         {
-            continue;
-         };
-
-         for (int y = 0; y < j; y++)
-         {
-            if (y < 0)
-            {
-               continue;
-            };
-            if (y > j - 1)
-            {
-               continue;
-            };
-
-            if (x == i && y == j)
-            {
-               continue;
-            }
-            else
-            {
-               Pixel currPx = get(i, j);
-               currPx.r = currPx.r * gaussEqu;
-               currPx.g = currPx.g * gaussEqu;
-               currPx.b = currPx.b * gaussEqu;
-
-               neighbors.push_back(currPx);
-            }
-         }
-      }
-      return neighbors;
-   }
-
    Image Image::resize(int w, int h) const
    {
 
@@ -499,7 +454,9 @@ namespace agl
 
    // used below link to figure out
    // before did not have the 255 in equ which did not work at all
-   // https://stackoverflow.com/questions/16521003/gamma-correction-formula-gamma-or-1-gamma
+   // sorry broke the link to fit 80 char lim 
+   // https://stackoverflow.com/questions/16521003/gamma-correction-
+   // formula-gamma-or-1-gamma
 
    Image Image::gammaCorrect(float gamma) const
    {
@@ -593,6 +550,33 @@ namespace agl
       return result;
    }
 
+   //https://stackoverflow.com/questions/1061093/how-is-a-sepia-tone-created
+   Image Image::sepia() const
+   {
+      Image result(m_width, m_height);
+
+      for (int i = 0; i < m_height; i++)
+      {
+         for (int j = 0; j < m_width; j++)
+         {
+
+            Pixel pixel = get(i, j);
+
+            // weighted avg for each color 
+            float newR = 0.393 * pixel.r + 0.769 * pixel.g + 0.189 * pixel.b;
+            float newG = 0.349 * pixel.r + 0.686 * pixel.g + 0.168 * pixel.b;
+            float newB = 0.272 * pixel.r + 0.534 * pixel.g + 0.131 * pixel.b;
+
+            pixel.r = newR > 255 ? 255 : newR;
+            pixel.g = newG > 255 ? 255 : newG;
+            pixel.b = newB > 255 ? 255 : newB;
+
+            result.set(i, j, pixel);
+         }
+      }
+      return result;
+   }
+
    Image Image::colorJitter(int size) const
    {
       Image image(0, 0);
@@ -607,41 +591,104 @@ namespace agl
       return image;
    }
 
+     std::vector<Pixel> 
+     Image::getNeighbors(int i, int j, std::vector<float> gaussMatrix) const
+   {
+      std::vector<Pixel> neighbors;
+
+      for (int x = i-1; x <= i + 1; x++)
+      {
+         if (x < 0)
+         {
+            continue;
+         }
+         if (x > m_height-1)
+         {
+            continue;
+         }
+
+         for (int y = j-1; y <= j+1; y++)
+         {
+            if (y < 0)
+            {
+               continue;
+            }
+
+            if (y > m_width - 1)
+            {
+               continue;
+            }
+
+            // if (x == i && y == j)
+            // {
+            //    continue;
+            // }
+            else
+            {
+
+               Pixel currPx = get(x, y);
+               currPx.r = currPx.r * gaussMatrix[(x-(i-1))*3+y-((j-1))];
+               currPx.g = currPx.g * gaussMatrix[(x-(i-1))*3+y-((j-1))];
+               currPx.b = currPx.b * gaussMatrix[(x-(i-1))*3+y-((j-1))];
+
+               neighbors.push_back(currPx);
+            }
+         }
+      }
+      return neighbors;
+   }
+
    Image Image::gaussianBlur(int stdev) const
    {
       Image result(m_width, m_height);
 
-      float gaussEqu = (1 / sqrt(2 * M_PI * pow(stdev, 2))) * 
-            std::exp(-(pow(m_width, 2) + pow(m_height, 2)) / 2 * pow(stdev, 2));
-
-      // making the blur matrix
-      // std::vector<float> blurMatrix;
-
-      // make matrix (3x3?) w/ gauss equ as paramaterers
-      // for (int i = 0; i < 8; i ++){
-      //    blurMatrix.push_back(gaussEqu);
-      // }
+      // float gaussEqu = (1 / sqrt(2 * M_PI * pow(stdev, 2))) * 
+      //       std::exp(-(pow(3, 2) + pow(3, 2)) / 2 * pow(3, 2));   
 
       std::vector<Pixel> neighbors;
+      std::vector<float> gaussMatrix;
+
+      // std::vector<float> gaussMatrix = {1.0/16.0, 1.0/8.0, 1.0/16.0, 
+      //                                  1.0/8.0, 1.0/4.0, 1.0/8.0,
+      //                                  1.0/16.0, 1.0/8.0, 1.0/16.0}; 
+      float gaussSum = 0; 
+
+      for (int x = -1; x < 2; x++){
+         for (int y = -1; y < 2; y++){
+            gaussMatrix.push_back((1 / (2 * M_PI * pow(stdev, 2))) * 
+            std::exp(-((pow(x, 2) + pow(y, 2)) / (2 * pow(stdev, 2)))));
+            gaussSum += gaussMatrix[gaussMatrix.size()-1];
+         }
+      }
+
+      for (int i = 0; i < gaussMatrix.size(); i++){
+         gaussMatrix[i] = gaussMatrix[i]/gaussSum; 
+         std::cout << gaussMatrix[i] << std::endl; 
+      }
 
       // cycle through pixels
 
-      for (int i = -1; i < m_height + 1; i++)
+      for (int i = 0; i < m_height; i++)
       {
          for (int j = 0; j < m_width; j++)
          {
 
-            neighbors = getNeighbors(i, j, gaussEqu);
+            neighbors = getNeighbors(i, j, gaussMatrix);
 
             // pixel = neighbors * gaussequ && all added together
 
             Pixel resultant = neighbors[0];
             for (int v = 1; v < neighbors.size(); v++)
             {
+
+               // std::cout << "current: " << neighbors[v].r << ", " << neighbors[v].g << ", " << neighbors[v].g << std::endl;
+
                resultant.r += neighbors[v].r;
                resultant.g += neighbors[v].g;
                resultant.b += neighbors[v].b;
             }
+
+            // std::cout << "current: " << resultant.r << ", " << resultant.g << ", " << resultant.g << std::endl;
 
             result.set(i, j, resultant);
          }
@@ -705,7 +752,7 @@ namespace agl
       return result;
    }
 
-   Image Image::overlay() const
+   Image Image::overlay(const Image &other) const
    {
       Image result(m_width, m_height);
 
@@ -715,15 +762,31 @@ namespace agl
          {
 
             Pixel currPx = get(i, j);
+            Pixel otherPx = other.get(i, j);
+
+            Pixel overlayPx;
 
             if (currPx.r < 0.5 && currPx.g < 0.5 && currPx.b < 0.5)
             {
-               // call multiply
+               // multiply
+               overlayPx.r = (currPx.r / (float)255) * otherPx.r;
+               overlayPx.g = (currPx.g / (float)255) * otherPx.g;
+               overlayPx.b = (currPx.b / (float)255) * otherPx.b;
+
             }
             else
             {
-               // call screen
+               // screen
+               overlayPx.r = (1.0 - ((1.0 - currPx.r / 255.0) 
+                        * (1.0 - otherPx.r / 255.0))) * 255;
+               overlayPx.g = (1.0 - ((1.0 - currPx.g / 255.0) 
+                        * (1.0 - otherPx.g / 255.0))) * 255;
+               overlayPx.b = (1.0 - ((1.0 - currPx.b / 255.0) 
+                        * (1.0 - otherPx.b / 255.0))) * 255;
+
             }
+
+            result.set(i, j, overlayPx);
          }
       }
 

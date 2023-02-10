@@ -39,11 +39,17 @@ int main(int argc, char** argv)
    Image screen = difference.screen(sub);
    screen.save("earth-screen.png");
 
-   // Image gauss = image.gaussianBlur(3);
-   // gauss.save("snakeboi-gauss.png");
+   Image gauss = image.gaussianBlur(50);
+   gauss.save("earth-gauss.png");
 
    Image filmGrain = image.filmGrain();
    filmGrain.save("earth-filmGrain.png");
+
+   Image overlay = image.overlay(image); 
+   overlay.save("earth-overlay.png");
+
+   Image sepia = image.sepia(); 
+   sepia.save("earth-sepia.png");
 
    return 0;
 }

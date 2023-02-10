@@ -187,6 +187,9 @@ class Image {
   // Convert the image to grayscale
   Image grayscale() const;
 
+  // convert the image to sepia : ) 
+  Image sepia() const;
+
   // return a bitmap version of this image
   Image colorJitter(int size) const;
 
@@ -198,7 +201,8 @@ class Image {
 
   // extension func for gaussian blur 
   // returns the neighbors of a pixel 
-  std::vector<Pixel> getNeighbors(int i, int j, float gaussEqu) const; 
+  std::vector<Pixel> 
+  getNeighbors(int i, int j, std::vector<float> gaussMatrix) const; 
 
   // returns image w/ film grain applied to it
   // lightens/darkens px based on random number to get effect 
@@ -207,7 +211,7 @@ class Image {
   // applies overlay to image and returns said image
   // applies screen or multiply depending on the pixel values 
   // Assumes that the two images are the same size
-  Image overlay() const; 
+  Image overlay(const Image &other) const; 
 
   // Fill this image with a color
   void fill(const Pixel& c);
