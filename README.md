@@ -117,8 +117,8 @@ Pixelate
 Skateboard Store Logo --> alphablend, difference 
 ![oldtimey](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/curious.png)
 
-"Old Timey" --> sepia & film grain
-![oldtimey](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/snake-oldtimey.png)
-
 Kind of edge detector --> invert, pixelate, alphablend  
 ![oldtimey](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/blurryearth.png)
+
+"Old Timey" --> sepia & film grain
+![oldtimey](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/snake-oldtimey.png)
