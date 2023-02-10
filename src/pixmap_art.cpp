@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
 
    Image image;
-   image.load("../images/snake.png");
+   image.load("../images/earth.png");
 
    Image swirl = image.swirl(); 
    swirl.save("snake-swirl.png");
