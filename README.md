@@ -106,6 +106,12 @@ Overlay
 Sepia 
 ![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-sepia.png)
 
+Gaussian Blur 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-gauss.png)
+
+Pixelate
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-pixelate.png)
+
 ## Results
 
 Swirl 
