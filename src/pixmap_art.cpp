@@ -5,51 +5,58 @@ using namespace agl;
 
 int main(int argc, char** argv)
 {
-   
-   // todo: make at least one artwork!
-
 
    Image image;
-   image.load("../images/earth.png");
+   image.load("../images/snake.png");
 
    Image swirl = image.swirl(); 
-   swirl.save("earth-swirl.png");
+   swirl.save("snake-swirl.png");
 
    Image multiply = image.multiply(image); 
-   multiply.save("earth-multiply.png");
+   multiply.save("snake-multiply.png");
 
    Image invert = image.invert();
-   invert.save("earth-invert.png");
+   invert.save("snake-invert.png");
 
    Image add = image.add(image);
-   add.save("earth-add.png");
+   add.save("snake-add.png");
 
    Image sub = image.subtract(swirl);
-   sub.save("earth-sub.png");
+   sub.save("snake-sub.png");
 
    Image difference = image.difference(swirl);
-   difference.save("earth-difference.png");
+   difference.save("snake-difference.png");
 
    Image lightest = image.lightest(invert);
-   lightest.save("earth-lightest.png");
+   lightest.save("snake-lightest.png");
 
    Image darkest = image.darkest(invert);
-   darkest.save("earth-darkest.png");
+   darkest.save("snake-darkest.png");
 
    Image screen = difference.screen(sub);
-   screen.save("earth-screen.png");
-
-   Image gauss = image.gaussianBlur(50);
-   gauss.save("earth-gauss.png");
+   screen.save("snake-screen.png");
 
    Image filmGrain = image.filmGrain();
-   filmGrain.save("earth-filmGrain.png");
+   filmGrain.save("snake-filmGrain.png");
 
    Image overlay = image.overlay(image); 
-   overlay.save("earth-overlay.png");
+   overlay.save("snake-overlay.png");
 
    Image sepia = image.sepia(); 
-   sepia.save("earth-sepia.png");
+   sepia.save("snake-sepia.png");
+
+   Image sepiagrain = sepia.filmGrain();
+   sepiagrain.save("snake-oldtimey.png");
+
+   // my image is super big so these ops look better on earth 
+
+   Image earth;
+   earth.load("../images/earth.png");
+   Image pixelateE = earth.pixelate(); 
+   pixelateE.save("earth-pixelate.png");
+
+   Image gauss = image.gaussianBlur(3);
+   gauss.save("snake-gauss.png");
 
    return 0;
 }

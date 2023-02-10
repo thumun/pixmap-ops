@@ -31,6 +31,10 @@ namespace agl
       m_height = height;
       m_channels = 3;
       m_data = new char[m_width * m_height * m_channels];
+      for (int i = 0; i < m_width * m_height * m_channels; i++)
+      {
+         m_data[i] = -1;
+      }
    }
 
    Image::Image(const Image &orig)
@@ -619,20 +623,13 @@ namespace agl
                continue;
             }
 
-            // if (x == i && y == j)
-            // {
-            //    continue;
-            // }
-            else
-            {
+            Pixel currPx = get(x, y);
+            currPx.r = currPx.r * gaussMatrix[(x-(i-1))*3+y-((j-1))];
+            currPx.g = currPx.g * gaussMatrix[(x-(i-1))*3+y-((j-1))];
+            currPx.b = currPx.b * gaussMatrix[(x-(i-1))*3+y-((j-1))];
 
-               Pixel currPx = get(x, y);
-               currPx.r = currPx.r * gaussMatrix[(x-(i-1))*3+y-((j-1))];
-               currPx.g = currPx.g * gaussMatrix[(x-(i-1))*3+y-((j-1))];
-               currPx.b = currPx.b * gaussMatrix[(x-(i-1))*3+y-((j-1))];
-
-               neighbors.push_back(currPx);
-            }
+            neighbors.push_back(currPx);
+            
          }
       }
       return neighbors;
@@ -642,29 +639,29 @@ namespace agl
    {
       Image result(m_width, m_height);
 
-      // float gaussEqu = (1 / sqrt(2 * M_PI * pow(stdev, 2))) * 
-      //       std::exp(-(pow(3, 2) + pow(3, 2)) / 2 * pow(3, 2));   
 
       std::vector<Pixel> neighbors;
-      std::vector<float> gaussMatrix;
+      // std::vector<float> gaussMatrix;
 
-      // std::vector<float> gaussMatrix = {1.0/16.0, 1.0/8.0, 1.0/16.0, 
-      //                                  1.0/8.0, 1.0/4.0, 1.0/8.0,
-      //                                  1.0/16.0, 1.0/8.0, 1.0/16.0}; 
+      // using a fixed kernel to get more of a blur 
+      std::vector<float> gaussMatrix = {1.0/16.0, 1.0/8.0, 1.0/16.0, 
+                                       1.0/8.0, 1.0/4.0, 1.0/8.0,
+                                       1.0/16.0, 1.0/8.0, 1.0/16.0}; 
       float gaussSum = 0; 
+      
+      // the stdev version 
+      // for (int x = -1; x < 2; x++){
+      //    for (int y = -1; y < 2; y++){
+      //       gaussMatrix.push_back((1 / (2 * M_PI * pow(stdev, 2))) * 
+      //       std::exp(-((pow(x, 2) + pow(y, 2)) / (2 * pow(stdev, 2)))));
+      //       gaussSum += gaussMatrix[gaussMatrix.size()-1];
+      //    }
+      // }
 
-      for (int x = -1; x < 2; x++){
-         for (int y = -1; y < 2; y++){
-            gaussMatrix.push_back((1 / (2 * M_PI * pow(stdev, 2))) * 
-            std::exp(-((pow(x, 2) + pow(y, 2)) / (2 * pow(stdev, 2)))));
-            gaussSum += gaussMatrix[gaussMatrix.size()-1];
-         }
-      }
-
-      for (int i = 0; i < gaussMatrix.size(); i++){
-         gaussMatrix[i] = gaussMatrix[i]/gaussSum; 
-         std::cout << gaussMatrix[i] << std::endl; 
-      }
+      // for (int i = 0; i < gaussMatrix.size(); i++){
+      //    gaussMatrix[i] = gaussMatrix[i]/gaussSum; 
+      //    std::cout << gaussMatrix[i] << std::endl; 
+      // }
 
       // cycle through pixels
 
@@ -681,14 +678,10 @@ namespace agl
             for (int v = 1; v < neighbors.size(); v++)
             {
 
-               // std::cout << "current: " << neighbors[v].r << ", " << neighbors[v].g << ", " << neighbors[v].g << std::endl;
-
                resultant.r += neighbors[v].r;
                resultant.g += neighbors[v].g;
                resultant.b += neighbors[v].b;
             }
-
-            // std::cout << "current: " << resultant.r << ", " << resultant.g << ", " << resultant.g << std::endl;
 
             result.set(i, j, resultant);
          }
@@ -791,6 +784,85 @@ namespace agl
       }
 
       return result;
+   }
+
+   // same as neighbors for gauss but not applying const 
+   std::vector<Pixel> Image::pixelateNeighbors(int i, int j) const
+   {
+      std::vector<Pixel> neighbors;
+
+      for (int x = i-1; x <= i + 1; x++)
+      {
+         if (x < 0)
+         {
+            continue;
+         }
+         if (x > m_height-1)
+         {
+            continue;
+         }
+
+         for (int y = j-1; y <= j+1; y++)
+         {
+            if (y < 0)
+            {
+               continue;
+            }
+
+            if (y > m_width - 1)
+            {
+               continue;
+            }
+            
+            Pixel currPx = get(x, y);
+            neighbors.push_back(currPx);
+            
+         }
+      }
+      return neighbors;
+   }
+
+   Image Image::pixelate() const {
+      // Image result(m_width, m_height);
+      Image result = *this; 
+
+      std::vector<Pixel> neighbors;
+
+      for (int i = 1; i < m_height; i+=3){
+         for (int j = 1; j < m_width; j+=3){
+
+            neighbors = pixelateNeighbors(i, j);
+
+            float avgr = 0.0; 
+            float avgg = 0.0; 
+            float avgb = 0.0; 
+
+            for (int n = 0; n < neighbors.size(); n++){
+               avgr += neighbors[n].r; 
+               avgg += neighbors[n].g; 
+               avgb += neighbors[n].b; 
+            }
+
+            avgr = avgr/((float)neighbors.size()); 
+            avgg = avgg/((float)neighbors.size()); 
+            avgb = avgb/((float)neighbors.size()); 
+
+            Pixel avgPix; 
+            avgPix.r = avgr; 
+            avgPix.g = avgg;
+            avgPix.b = avgb; 
+
+            // setting pixels as avg to create pixel chunk 
+            for (int x = -1; x < 2; x++){
+               for (int y = -1; y < 2; y++){
+                  result.set(i+x, j+y, avgPix);
+               }
+            }
+         }
+      }
+
+
+      return result; 
    }
 
    void Image::fill(const Pixel &c)

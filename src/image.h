@@ -213,6 +213,13 @@ class Image {
   // Assumes that the two images are the same size
   Image overlay(const Image &other) const; 
 
+  // extension func to get neighbors for pixelate 
+  std::vector<Pixel> pixelateNeighbors(int i, int j) const; 
+
+  // "pixelate" the image 
+  // break into groups and get avg color & set 
+  Image pixelate()const; 
+
   // Fill this image with a color
   void fill(const Pixel& c);
 
