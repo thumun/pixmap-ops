@@ -2,7 +2,8 @@
 
 Image manipulation demos based on the PPM image format.
 
-TODO: Add a representative image for your project here
+Old Timey :) (mix of sepia & grain)  
+![oldtimey](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/snake-oldtimey.png)
 
 ## How to build
 
@@ -66,7 +67,10 @@ Greyscale
 Subimage
 ![subimage](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-subimage.png)
 
+
+
 ## Results
 
-TODO: Show artworks using your class
+Resize 
+![resize](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-200-300.png)
 
