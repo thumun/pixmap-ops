@@ -67,10 +67,47 @@ Greyscale
 Subimage
 ![subimage](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-subimage.png)
 
+Resize 
+![resize](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-200-300.png)
 
+Swirl 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-swirl.png)
+
+Multiply 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-multiply.png)
+
+Invert 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-invert.png)
+
+Add 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-add.png)
+
+Subtract 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-sub.png)
+
+Difference 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-difference.png)
+
+Lightest 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-lightest.png)
+
+Darkest 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-darkest.png)
+
+Screen 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-screen.png)
+
+Filmgrain 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-filmGrain.png)
+
+Overlay 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-overlay.png)
+
+Sepia 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-sepia.png)
 
 ## Results
 
-Resize 
-![resize](https://github.com/thumun/pixmap-ops/blob/main/Img_Op_pictures/earth-200-300.png)
+Swirl 
+![swirl](https://github.com/thumun/pixmap-ops/blob/main/Cool_op_pics/earth-swirl.png)
 
