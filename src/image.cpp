@@ -647,8 +647,8 @@ namespace agl
       std::vector<float> gaussMatrix = {1.0/16.0, 1.0/8.0, 1.0/16.0, 
                                        1.0/8.0, 1.0/4.0, 1.0/8.0,
                                        1.0/16.0, 1.0/8.0, 1.0/16.0}; 
-      float gaussSum = 0; 
-      
+      float gaussSum = 0.0; 
+
       // the stdev version 
       // for (int x = -1; x < 2; x++){
       //    for (int y = -1; y < 2; y++){
@@ -860,8 +860,6 @@ namespace agl
             }
          }
       }
-
-
       return result; 
    }
 
