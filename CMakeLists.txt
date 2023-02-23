@@ -38,6 +38,7 @@ elseif (UNIX)
   FIND_PACKAGE(OpenGL REQUIRED) 
   FIND_PACKAGE(GLEW REQUIRED)
 
+  include_directories(external/include /usr/local/include)
   set(LIBRARY_DIRS
     /usr/X11R6/lib
     /usr/local/lib
