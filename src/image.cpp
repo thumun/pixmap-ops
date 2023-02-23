@@ -508,13 +508,18 @@ namespace agl
          for (int j = 0; j < m_width; j++)
          {
 
-            // problem: assuming that both img had the same w/h 
-            // should clamp other image to be the same as this img 
-            
-
-            Pixel otherPx = other.get(i, j);
+            Pixel otherPx; 
             Pixel thisPx = get(i, j);
 
+            // problem: assuming that both img had the same w/h 
+            // should clamp other image to be the same as this img 
+
+            if (i > other.height() || j > other.width()){
+               Pixel otherPx = thisPx;
+            } else {
+               otherPx = other.get(i, j);
+            }
+            
             Pixel resultPx;
             resultPx.r = otherPx.r * alpha + thisPx.r * (1 - alpha);
             resultPx.g = otherPx.g * alpha + thisPx.g * (1 - alpha);
