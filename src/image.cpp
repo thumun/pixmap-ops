@@ -91,7 +91,7 @@ namespace agl
    {
       if (m_data != nullptr)
       {
-         delete m_data;
+         delete[] m_data;
       }
    }
 
