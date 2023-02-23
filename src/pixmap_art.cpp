@@ -75,8 +75,8 @@ int main(int argc, char** argv)
    // invert.save("snake-invert.png");
 
    Image blend = earth.alphaBlend(image, 0.5f);
-   Image difference = blend.difference(earth); 
-   difference.save("curious.png");
+   //Image difference = blend.difference(earth); 
+   //difference.save("curious.png");
 
    return 0;
 }

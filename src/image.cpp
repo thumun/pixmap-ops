@@ -501,11 +501,17 @@ namespace agl
 
    Image Image::alphaBlend(const Image &other, float alpha) const
    {
+
       Image result(m_width, m_height);
       for (int i = 0; i < m_height; i++)
       {
          for (int j = 0; j < m_width; j++)
          {
+
+            // problem: assuming that both img had the same w/h 
+            // should clamp other image to be the same as this img 
+            
+
             Pixel otherPx = other.get(i, j);
             Pixel thisPx = get(i, j);
 
