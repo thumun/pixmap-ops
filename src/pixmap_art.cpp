@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
 
    Image image;
-   image.load("../images/bricks.png");
+   image.load("../images/earth.png");
 
    // Image swirl = image.swirl(); 
    // swirl.save("snake-swirl.png");
@@ -50,8 +50,8 @@ int main(int argc, char** argv)
 
    // // my image is super big so these ops look better on earth 
 
-   Image earth;
-   earth.load("../images/earth.png");
+   Image soup;
+   soup.load("../images/soup.png");
    // Image pixelateE = earth.pixelate(); 
    // pixelateE.save("earth-pixelate.png");
 
@@ -74,9 +74,9 @@ int main(int argc, char** argv)
 
    // invert.save("snake-invert.png");
 
-   Image blend = earth.alphaBlend(image, 0.5f);
+   Image blend = image.alphaBlend(soup, 0.5f);
    //Image difference = blend.difference(earth); 
-   //difference.save("curious.png");
+   blend.save("test.png");
 
    return 0;
 }

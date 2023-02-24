@@ -501,8 +501,20 @@ namespace agl
 
    Image Image::alphaBlend(const Image &other, float alpha) const
    {
-
       Image result(m_width, m_height);
+
+
+      int widthOffset = 0; 
+      int heightOffset = 0;
+
+      if (other.width() < m_width){
+         widthOffset = m_width/2 - other.width()/2;
+      }
+      
+      if (other.height() < m_height){
+         heightOffset = m_height/2 - other.height()/2;
+      } 
+
       for (int i = 0; i < m_height; i++)
       {
          for (int j = 0; j < m_width; j++)
@@ -511,13 +523,13 @@ namespace agl
             Pixel otherPx; 
             Pixel thisPx = get(i, j);
 
-            // problem: assuming that both img had the same w/h 
-            // should clamp other image to be the same as this img 
+            if (((other.height() + heightOffset >= i) && (i >= heightOffset))
+               && ((other.width() + widthOffset >= j) && (j >= widthOffset))){
 
-            if (i > other.height() || j > other.width()){
-               Pixel otherPx = thisPx;
+               otherPx = other.get(i-heightOffset, j-widthOffset);
+               
             } else {
-               otherPx = other.get(i, j);
+               otherPx = thisPx;
             }
             
             Pixel resultPx;
