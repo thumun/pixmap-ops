@@ -150,10 +150,6 @@ namespace agl
    Pixel Image::get(int row, int col) const
    {
 
-      if (row >= m_height || row < 0 || col >= m_width || col < 0){
-         std::cout << "row: " << row << ", col: " << col << std::endl;
-      } 
-
       char red = m_data[m_channels * row * m_width + m_channels * col];
       char green = m_data[m_channels * row * m_width + m_channels * col + 1];
       char blue = m_data[m_channels * row * m_width + m_channels * col + 2];
@@ -540,7 +536,6 @@ namespace agl
                otherPx = thisPx;
             }
 
-            
             Pixel resultPx;
             resultPx.r = otherPx.r * alpha + thisPx.r * (1 - alpha);
             resultPx.g = otherPx.g * alpha + thisPx.g * (1 - alpha);
