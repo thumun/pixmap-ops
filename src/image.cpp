@@ -521,15 +521,18 @@ namespace agl
          {
 
             Pixel otherPx; 
+		otherPx.r = 0; 
+		otherPx.g = 0; 
+		otherPx.b = 0; 
             Pixel thisPx = get(i, j);
 
             if (((other.height() + heightOffset >= i) && (i >= heightOffset))
                && ((other.width() + widthOffset >= j) && (j >= widthOffset))){
 
-               otherPx = other.get(i-heightOffset, j-widthOffset);
+              // otherPx = other.get(i-heightOffset, j-widthOffset);
                
             } else {
-               otherPx = thisPx;
+              // otherPx = thisPx;
             }
             
             Pixel resultPx;
